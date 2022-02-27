@@ -1,0 +1,56 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.mapper.StockMapper">
+	
+	<!-- vi 데이터 있는지 체크 1 -->
+	<select id="getJson" resultType="int">
+	select count(*) from stock_vi where stk_id = #{stk_id} and to_date(stk_daye,'YY/MM/DD') =(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM DUAL)
+	</select>
+
+	<!-- vi 데이터 있는지 체크 2 -->	
+	<select id="getJson2" resultType="int">
+	select count(*) from stock_vi where stk_id = #{stk_id} and stk_rel= #{stk_rel} and to_date(stk_daye,'YY/MM/DD') =(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM DUAL)
+	</select>
+	
+	<!-- viNews 데이터 있는지 체크 -->
+	<select id="getJsonNews" resultType="int">
+	select count(*) from stock_news where news_company =#{news_company} and news_href = #{news_href} 
+	</select>
+	
+	<!-- viNewsList 뽑기 -->
+	<select id="getNewsList" resultType="com.stock.domain.StockNewsVO" parameterType="string">
+	select * from stock_news where replace(news_company,' ','') LIKE #{stk_nm}
+	</select>
+	
+	<!-- json 데이터업데이트 -->
+	<update id="jsonUpdate">
+	    update stock_vi set stk_rel = #{stk_rel} 
+	    where stk_id = #{stk_id} and stk_nm = #{stk_nm}
+	</update>
+	<!--  news 기사시간 업데이트-->
+	<update id="jsonNewsUpdate">
+     update stock_news set news_time = #{news_time} 
+     where news_href = #{news_href} or news_title = #{news_title}
+	/*참고로이런것도됨굿*/
+	</update>
+	<!-- VI LIST 데이터 넣기 	-->
+	<insert id="ViListRegister">
+	INSERT INTO stock_vi (stk_id, stk_cd, stk_nm, stk_pri, stk_inc, stk_act, stk_rel)
+	VALUES (#{stk_id}, #{stk_cd}, #{stk_nm}, #{stk_pri}, #{stk_inc},#{stk_act}, #{stk_rel})
+	</insert>
+	
+	<!--  VI news List 넣기 -->
+	<insert id="ViNewsRegister">
+	insert into stock_news(news_company, news_title, news_href, news_time)
+	values (#{news_company}, #{news_title}, #{news_href}, #{news_time})
+	</insert>
+	
+
+	<!-- list 뿌려주기 -->
+	<select id="getList" resultType="com.stock.domain.StockVO">
+	select * from stock_vi where to_date(stk_daye,'YY/MM/DD') =(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM DUAL) order by stk_id desc
+	</select>
+
+
+</mapper>

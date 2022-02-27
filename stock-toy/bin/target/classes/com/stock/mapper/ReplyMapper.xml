@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.mapper.ReplyMapper">
+
+	<select id="list" resultType="com.kst.domain.ReplyVO">
+	select * from tbl_reply where bno = #{bno}  order by rno
+	</select>
+	
+	<insert id="register">
+	insert into tbl_reply(bno, rno, reply, replyer) 
+	values (#{bno},seq_reply.nextVAL, #{reply}, #{replyer})
+	</insert>
+	
+	<update id="update">
+	update tbl_reply set reply = #{reply} where rno = #{rno}
+	</update>
+	
+	<delete id="delete">
+	delete from tbl_reply where rno = #{rno}
+	</delete>
+
+</mapper>

@@ -1,0 +1,11 @@
+<label> 태그사이에 위치한 text, checkbox, radio 등은 클릭 가능 영역이 텍스트로 확장됩니다.
+
+<label for=""> 와 <태그 id="">값은 서로 그룹을 형성합니다. ( 제목을 눌러도 내용을 눌러도 같이눌림)
+
+<form role="form">에서 role 이란 html5에 새롭게 추가된 태그 ,컴퓨터의 리더기(시각장애인)를 이용해 웹페이지를 읽을때 해당 부분이  form 이라는것을 알려주는것
+
+jsp의 form태그의 모든 버튼은 submit 기능이다.
+
+id,class,name 차이 -https://zuyo.tistory.com/523
+
+<a>태그 속성 target='_blank' - 새창을 열어준다

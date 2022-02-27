@@ -1,0 +1,4 @@
+-----------------------------------
+예외발생시간 : Tue Mar 23 22:09:58 KST 2021
+예외메시지 : Cannot invoke "java.util.Collection.toArray()" because "c" is null
+-----------------------------------

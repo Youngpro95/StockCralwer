@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.mapper.Board_AttachMapper">
+
+<select id="insertbno" resultType="int">
+	select MAX(bno)+1 from tbl_board 
+</select>
+
+<insert id="attach">
+	insert into tbl_attach (file_num, board_bno, file_Name, uid_FileName, file_Path, file_size)
+	values(seq_attach.nextval,#{board_bno}, #{file_Name}, #{uid_FileName}, #{file_Path}, #{file_Size})
+</insert>
+
+<delete id="deleteAttach">
+	delete from tbl_attach where uid_filename= #{SfileCut}
+</delete>
+
+
+</mapper>

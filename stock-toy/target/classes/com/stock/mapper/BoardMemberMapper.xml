@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.mapper.BoardMemberMapper">
+  
+	<select id="idChk" resultType="int" parameterType="String">
+    	select count(*) from tbl_member where memberid= #{id}
+	</select>
+
+	<select id="nickChck" resultType="int" parameterType="String">
+		select count(*) from tbl_member where memberNick = #{nick}
+	</select>
+
+
+	<insert id="userRegister">
+	insert into tbl_member(memberID, memberPw, memberName, memberPhone, memberNick, memberEmail)
+	values(#{memberID}, #{memberPw}, #{memberName}, #{memberPhone}, #{memberNick}, #{memberEmail})
+	</insert>
+	
+	<select id="loginCheck" resultType="int">
+	select count(*) from tbl_member 
+	where memberid=#{memberID} and memberpw=#{memberPw}
+	</select>	
+
+	<select id="getMylogin" resultType="com.stock.domain.MemberDTO" parameterType="String">
+	select memberid, membername, memberphone, membernick, memberemail 
+	from tbl_member where memberid= #{memberID}
+	</select>
+	
+	<update id="myPageUpdate">
+	update tbl_member set membername=#{memberName}, membernick=#{memberNick}, memberphone=#{memberPhone}, memberemail=#{memberEmail} 
+	where memberid = #{memberID}
+	</update>
+	
+	<update id="passwordChange">
+	    update tbl_member set memberpw=#{memberPw2} where memberid=#{memberID}
+	</update>	
+	
+	<delete id="memberWithdrawal">
+		delete from tbl_member where memberid = #{memberID}
+	</delete>
+	
+	
+	<!-- 네이버 로그인 -->
+	<select id="naverMemberCheck" resultType="int">
+	select count(*) from tbl_member
+    where memberid = #{memberID} and memberemail=#{memberEmail}
+	</select>
+	<!-- 네이버 로그인 등록 -->
+	<insert id="naverMemberJoin">
+	insert into tbl_member(memberID, memberName, memberPhone, memberNick, memberEmail, provider)
+	values(#{memberID}, #{memberName}, #{memberPhone}, #{memberNick}, #{memberEmail}, #{provider})
+	</insert>
+
+</mapper>

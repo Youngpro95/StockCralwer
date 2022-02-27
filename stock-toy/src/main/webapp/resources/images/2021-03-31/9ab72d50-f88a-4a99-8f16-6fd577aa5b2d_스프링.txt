@@ -1,0 +1,70 @@
+pom.xml - mybatis > mybaits-spring , mybatis , 
+라이브러리-  DB   > spring-jdbc , spring-tx ( 스프링에서 db처리와 트랜잭션처리 )
+            - test 코드 > spring-test
+            - json 데이터 > jackson-databind
+            - 파일업로드 servlet 2.5버전 일때 사용 - commons-fileupload
+
+1.web.xml - 톰캣구동 설정 , 2.root- context, servlet- context - 스프링관련설정     
+1) web.xml에서 root-context.xml 경로설정 > 2) root-context에서 파일에있는 빈 설정들 생성 > 3)web.xml에 있는 "org.springframework.web.servlet.DispatcherServlet"로 
+servlet-context.xml 로딩 하고 해석. (이과정에서 등록된 객체들은 기존에 만들어진 객체들과 같이연동하게됨)
+ 
+스프링 MVC 의 Controller는 기본적으로 java beans 규칙에 맞는 객체는 다시화면으로 전달하는데 기본자료형은 x  (객체자체로 전달될때 맨앞의 문자는 소문자로 변경)
+
+Controller 리턴타입  // String - ( jsp파일의 경로와 파일이름) // void - 호출하는 URL과 동일한 이름의 jsp로 이동 // VO,DTO타입 - 주로 JSON 타입의 데이터를 만들어 반환하는용도  // ResponseEntity - response 할때 Http 헤더정보와 내용을 가공하는 용도
+
+파일업로드 처리 - 일반적으로는 commos파일 업로드를 이용 , 하지만 servlet 3.0 이후는 파일 처리할수 있는 기능추가되있다.
+
+프로젝트를 진행하기전 고객의 요구사항을 인식하고 ,이를 설계 (요구사항분석) - 원하는내용이 무엇이고 어느정도까지 구현할것인가의 대한것을 정하는것.
+(웹 프로젝트는 3-tier방식으로 구성)//  Presentation <-> Business <-> Persistence tier   >>>> 화면(view) <-> 순수한비즈니스 로직(서비스) <-> 데이터를 어떤방식으로 보관하고,사용하는가에 대한 설계 ( 영속계층or 데이터 계층)
+설계를 할때 각 계층간의 연결을 인터페이스를 이용해 느슨한 연결을 한다
+
+
+
+
+*************** 어노테이션 ***************
+
+@Component - 클래스를 스캔할 수 있도록 설정해주는 역할 (객체 생성)
+ 
+@RequestMapping - get,post 방식 모두를 지원해야 하는 경우에 배열로 처리해서 지정할수 있음.
+
+@RequestParam - 파라미터로 사용된 변수의 이름과 전달되는 파라미터의 이름이 다른경우 사용
+
+@InitBinder - 파라미터의 수집을 다른용어로는 바인딩이라고 함.( 변환이 가능한 데이터는 자동으로 변환되지만 경우에 따라서는 파라미터를 변환처리 해야하는경우 있음 > 문자열로 전달된 데이터를 시간으로 바꿀때)
+
+@DateTimeFormat - @InitBinder를 이용해서 날짜 변환할수 있찌만 , 파라미터로 사용되는 인스턴스 변수에 적용해도 변환가능
+
+@ModelAttribute - *기본 자료형 이나 , 강제로 전달받은 파라미터를 Model 에 담아서 전달하도록 함.(타입에 관계없이 무조건 Model에 담아 전달 View에서 유용하게 사용)
+
+@RedirectAttributes - 일회성으로 데이터를 전달하는 용도 (Model 과 같이 파라미터로 선언해서 사용하고 ,addFlashAttribute(이름,값) 메서드를 이용해서 화면에 한번만 사용
+
+@ControllerAdvice - 해당 객체가 스프링의 컨트롤러에서 발생하는 예외를 처리하는 존재임을 명시하는 용도 
+      (@ExceptionHandler) - 해당 메서드가 () 들어가는 예외타입을 처리한다는것을 의미
+
+@NoArgsConstructor - 기본생성자 자동생성
+@AllArgsContstructor - (필드값을 모두 포함한 생성자를 자동 생성)모든 파라미터를 이용하는 생성자를 만들어줌(단일 파라미터를 받는 생성자의 경우 필요한 파라미터를 자동 주입)
+
+@WebAppConfiguration - (테스트코드) Servlet의 ServletContext를 이용하기 위함, 스프링에서는 WebApplicatonContext라는 존재를 이용하기 위함
+( @Before - 어노테이션이 적용된 메서드는 테스트전에 매번 실행되는 메서드가됨  )
+
+
+**** RestApi  ****
+// rest 방식의 데이터 교환 은 get/post 방식 외에 다양한 방식으로 데이터를 전달함. (post등록 , get조회, put수정 ,delete삭제 ) 어노테이션
+@RestController - 컨트롤러가 rest 방식을 처리하기 위한것임을 명시
+
+@PathVariable - Rest방식에서 자주사용됨, URL 경로의 일부를 파라미터로 사용할때 이용
+
+@RequestBody - 전달된요청(request)의 내용(body)을 이용해서 해당 파라미터의 타입으로 변환을 요구함.
+	(** 대부분의 경우에는 JSON 데이터를 서버에 보내서 원하는 타입의 객체로 변환하는 용도로 사용되지만, 경우에따라서 원하는 포맷의 데이터를 보내고, 이를 해석해서 원하는 타입으로 사용하기도함)
+
+@Param - mybatis에 두개이상의 데이터를 파라미터로 전달하기 위해 사용.( @Param의 속성값은 mybatis에서 sql을 이용할때 '#{}'의 이름으로 사용가능
+
+@ResponseEntity 반환타입 - rest api 성공여부를 상태코드와,응답메시지를 포함시켜 보낼수있음.
+
+@CrossOrigin - ajax의 크로스 도메인 문제를 해결해주는 어노테이션
+
+@Setter의 주입과 @Autowired 의 차이 , @@AllArgsContstructor 차이
+
+
+
+
+

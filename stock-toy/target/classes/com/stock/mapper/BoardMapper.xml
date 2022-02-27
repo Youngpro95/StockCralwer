@@ -1,0 +1,74 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.mapper.BoardMapper">
+
+<select id="getList" resultType="com.stock.domain.BoardDTO">
+<![CDATA[
+    SELECT * FROM 
+	 (
+	 SELECT /*+INDEX_DESC(board pk_board)*/ rownum rn, bno, title, content, writer, updatedate, boardcnt, (select count(*) from tbl_reply reply where reply.bno = board.bno) as replyCnt
+	 FROM tbl_board board
+	 WHERE bno > 0 and rownum > 0 and rownum <= #{pageNum} * #{amount}
+	 )
+	WHERE rn > (#{pageNum} - 1) * #{amount}
+ ]]>
+</select>
+
+
+<select id="serach" resultType="com.stock.domain.BoardDTO">
+<![CDATA[
+
+select * from
+  	(
+    select /*+INDEX_DESC(tbl_board pk_board)*/ rownum rn, bno, title, content, writer, updatedate, boardcnt
+    from tbl_board
+	where ${type} LIKE '%'||#{keyword}||'%' and bno > 0 and rownum > 0 and rownum <= #{pageNum} * #{amount}
+    )
+where rn > (#{pageNum} - 1) * #{amount}
+
+]]>
+</select>
+
+
+
+<select id="serachTotal" resultType="int">
+ 	select count(*) from tbl_board where ${type} LIKE '%'||#{keyword}||'%'
+</select>
+
+<!-- 게시물 총 개수 -->
+<select id="totalCount" resultType="int">
+	select count(*) from tbl_board
+</select>
+
+<!-- 게시물 조회수 -->
+<update id="clickViews">
+    update tbl_board set boardCnt = boardCnt + 1 where bno = #{bno}
+</update>
+
+<!-- 해당 게시글의 댓글수 
+<select id="replyCount">
+	select count(*) from tbl_reply where bno = 301
+</select>
+-->
+
+<!-- 게시물 등록 -->
+<insert id="register">
+	insert into tbl_board (bno,title,content,writer) 
+	values (seq_board.nextval,#{title},#{content},#{writer})
+</insert>
+
+<!-- 게시물 조회 -->
+<select id="get" resultType="com.stock.domain.BoardDTO">
+	select * from tbl_board where bno = #{bno}
+</select>
+
+<update id="modify">
+	UPDATE tbl_board SET title = #{title} ,content = #{content} WHERE bno = #{bno}
+</update>
+
+<delete id="delete">
+	delete from tbl_board where bno = #{bno}
+</delete>
+
+</mapper>

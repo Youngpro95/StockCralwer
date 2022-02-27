@@ -1,0 +1,35 @@
+03/16/2021 04:29:07 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[1]/div/div/table/thead/tr[1]/td[9]/div/div/a"}
+  (Session info: headless chrome=89.0.4389.90)
+
+03/16/2021 10:00:15 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[1]/div/div/table/thead/tr[1]/td[9]/div/div/a"}
+  (Session info: headless chrome=89.0.4389.90)
+
+03/16/2021 10:05:07 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@id="jsViewSizeButton"]"}
+  (Session info: headless chrome=89.0.4389.90)
+
+03/16/2021 10:05:47 PM [ERROR] [ViChecking.py:121] >> ERROR : 'WebElement' object has no attribute 'click3'
+03/17/2021 02:28:54 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[1]/div/div/table/thead/tr[1]/td[9]/div/div/a"}
+  (Session info: headless chrome=89.0.4389.90)
+
+03/17/2021 05:16:48 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[1]/div/div/table/thead/tr[1]/td[9]/div/div/a"}
+  (Session info: headless chrome=89.0.4389.90)
+
+03/19/2021 01:18:07 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: element not interactable
+  (Session info: headless chrome=89.0.4389.90)
+
+03/19/2021 04:10:47 PM [ERROR] [ViChecking.py:121] >> ERROR : Alert Text: [500] 일시적인 오류가 발생했습니다.
+Message: unexpected alert open: {Alert text : [500] 일시적인 오류가 발생했습니다.}
+  (Session info: headless chrome=89.0.4389.90)
+
+03/19/2021 08:28:26 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: element not interactable
+  (Session info: headless chrome=89.0.4389.90)
+
+03/23/2021 05:54:30 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[1]/div/div/table/thead/tr[1]/td[9]/div/div/a"}
+  (Session info: headless chrome=89.0.4389.90)
+
+03/23/2021 06:56:44 PM [ERROR] [ViChecking.py:121] >> ERROR : Message: element not interactable
+  (Session info: headless chrome=89.0.4389.90)
+
+06/17/2021 10:34:11 AM [ERROR] [ViChecking.py:121] >> ERROR : Message: element not interactable
+  (Session info: headless chrome=91.0.4472.106)
+

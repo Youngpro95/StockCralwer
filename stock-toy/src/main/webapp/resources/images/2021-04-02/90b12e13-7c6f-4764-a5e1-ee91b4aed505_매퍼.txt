@@ -1,0 +1,1 @@
+parameterType 은 입력될 데이터, resultType은 쿼리 후 결과를 위한 데이터이다 -https://blog.naver.com/rla8860/220671456438
