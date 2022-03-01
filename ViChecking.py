@@ -3,6 +3,7 @@ from selenium import webdriver
 import datetime,time
 import json,requests,logging
 
+
 logging.basicConfig(
     filename=os.getcwd()+"\py_error_log\\vi_error.log",
     format= '%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)s] >> %(message)s',
@@ -19,21 +20,19 @@ def inner_scroll():
     scroll_range = 540
     while True:
         try:
-            driver.execute_script('arguments[0].scrollTop = arguments[0].scrollHeight=' + str(scroll_range) + '',
-                                  last_index)
+            driver.execute_script('arguments[0].scrollTop = arguments[0].scrollHeight=' + str(scroll_range) + '', last_index)
             scroll_range += 540
         except Exception as e:
-            print("실패")
-        show_VI()
+            print(e)
+        show_VI() # VI리스트 업데이트&저장하기위한 호출
         if scroll_range >= scroll_height:  # 총 스크롤길이 넘어가면 멈춤
             break
     print("스크롤링 끝")
 
 
 def show_VI():
-    vi_body = driver.find_element_by_xpath('//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[2]/div/div/table/tbody').text  # 텍스트 다 긁어오기
-    transfer_list = vi_body.split("\n")  # \n 개행문자로 나누기
-    vi_result.extend(transfer_list)  # append 를 안한 이유는 텍스트를 리스트로 바꾸는 작업을 하기때문에 append가아닌 extend로 확장시킴
+    vi_body = driver.find_element_by_xpath('//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[2]/div/div/table/tbody').text.split("\n")  # 텍스트 다 긁어오기
+    vi_result.extend(vi_body)  # append 를 안한 이유는 텍스트를 리스트로 바꾸는 작업을 하기때문에 append가아닌 extend로 확장시킴
 
 
 def check_overlap():
@@ -43,7 +42,6 @@ def check_overlap():
             count += 1
             vi_result.remove(i)  # 중복값 제거
 
-
 def setting_vi():
     stock_info_array = []
     convertJson_array = []
@@ -51,8 +49,7 @@ def setting_vi():
 
     count = 0
     for i in range(len(vi_result)):
-        vi_split = vi_result[i].split()  # 공백으로 나눔
-        stock_info_array.extend(vi_split)  # 각 배열에 11개로 저장
+        stock_info_array.extend(vi_result[i].split() )  # 공백으로 나눈후 각 배열에 11개로 저장
         stk_id = stock_info_array[0 + count]  # 번호
         stk_cd = stock_info_array[2 + count]  # 종목코드
         stk_nm = stock_info_array[3 + count]  # 종목이름
@@ -102,18 +99,18 @@ while True:
     now = datetime.datetime.now() #시간
     nowDate = now.strftime('%Y년 %m월 %d일 %H시 %M분 입니다.')
     print(nowDate)
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--headless')  # 백그라운드화
-    chrome_options.add_argument('--no-sandbox') # Bypass OS security model
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument("--disable-setuid-sandbox")
-    chrome_options.add_argument('window-size=1920x1080')  # 윈도우 사이즈 크기 조절
-    driver = webdriver.Chrome(chrome_options=chrome_options)  # 웹은 크롬&옵션사용
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')  # 백그라운드화
+    options.add_argument('--no-sandbox') # Bypass OS security model
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument("--disable-setuid-sandbox")
+    options.add_argument('window-size=1920x1080')  # 윈도우 사이즈 크기 조절
+    driver = webdriver.Chrome(options=options)  # 웹은 크롬&옵션사용
     driver.maximize_window()
     try:
-        driver.get('http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC02021501')  # 크롤링할 url
-        time.sleep(1.5)
-        full = driver.find_element_by_xpath('//*[@id="jsViewSizeButton"]').click()  # 전체화면 vi해제시각 까지 불러오려고
+        driver.get("http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC02021501")  # 크롤링할 url
+        time.sleep(1.5) #로딩 기다림
+        driver.find_element_by_xpath('//*[@id="jsViewSizeButton"]').click()  # 전체화면 vi해제시각 까지 불러오려고
         time.sleep(2)
         driver.find_element_by_xpath('//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[1]/div/div/table/thead/tr[1]/td[9]/div/div/a').click()  # sort 버튼 클릭
         driver.find_element_by_xpath('//*[@id="jsMdiContent"]/div/div[1]/div[1]/div[1]/div[1]/div/div/table/thead/tr[1]/td[9]/div/div/a').click()  # sort 버튼 클릭
